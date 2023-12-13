@@ -1,4 +1,4 @@
-@Library('my-shared-library') _
+@Library('my-shared-library') _                 # this is jenkins shard lib name in our shared lib folder
 
 pipeline{
 
@@ -15,15 +15,15 @@ pipeline{
     stages{
          
         stage('Git Checkout'){
-                    when { expression {  params.action == 'create' } }
+                    when { expression {  params.action == 'create' } }           # when condition # when "action = true" conditon then only this git check out blolc executed
             steps{
-            gitCheckout(
+            gitCheckout(                                                        # this is same vaiiable we used in jenkins ahared lib as "gitCheckout.groovy"
                 branch: "main",
                 url: "https://github.com/vikash-kumar01/mrdevops_java_app.git"
             )
             }
         }
-         stage('Unit Test maven'){
+         stage('Unit Test maven'){           
          
          when { expression {  params.action == 'create' } }
 
@@ -48,7 +48,7 @@ pipeline{
             steps{
                script{
                    
-                   def SonarQubecredentialsId = 'sonarqube-api'
+                   def SonarQubecredentialsId = 'sonarqube-api'   # to authenticate sonar -- # we  can write it  by pipeline synatx generator
                    statiCodeAnalysis(SonarQubecredentialsId)
                }
             }
@@ -59,7 +59,7 @@ pipeline{
                script{
                    
                    def SonarQubecredentialsId = 'sonarqube-api'
-                   QualityGateStatus(SonarQubecredentialsId)
+                   QualityGateStatus(SonarQubecredentialsId) 
                }
             }
         }
